@@ -2,10 +2,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 // Create the main App component
-const Orders = () => {
+const Category = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Orders</Text> 
+      <Text style={styles.text}>Category</Text> 
     </View>
   );
 };
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
 });
 
 // Export the App component as the default export
-export default Orders;
+export default Category;
