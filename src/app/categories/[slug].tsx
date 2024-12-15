@@ -1,28 +1,71 @@
-// Import React and React Native components 
-import { StyleSheet, Text, View } from 'react-native';
+import { Redirect, Stack, useLocalSearchParams } from 'expo-router';
+import { StyleSheet, Text, Image , View, FlatList } from 'react-native';
+import { CATEGORIES } from '../../../assets/categories';
+import { PRODUCTS } from '../../../assets/products';
+import { ProductListItem } from '../../components/product-list-item';
 
-// Create the main App component
 const Category = () => {
+  const { slug } = useLocalSearchParams<{slug: string }>();
+  const category = CATEGORIES.find(category =>category.slug === slug);
+  if(!category) return <Redirect href='/404' />;
+  const products = PRODUCTS.filter(product => product.category.slug === slug);
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Category</Text> 
+      <Stack.Screen options={{ title: category.name }}/>
+      <Image source={{ uri: category.imageUrl}} style={styles.categoryImage}/>
+      <Text style={styles.categoryName}>{category.name}</Text>
+      <FlatList
+      data={products}
+      keyExtractor={item => item.id.toString()}
+      renderItem={({ item }) => <ProductListItem product={item} />}
+      />
     </View>
   );
 };
 
-// Define styles for the components
+export default Category;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
+    padding: 16,
   },
-  text: {
-    fontSize: 20,
-    color: '#333', 
+  categoryImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  categoryName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  productsList: {
+    flexGrow: 1,
+  },
+  productRow: {
+    justifyContent: 'space-between',
+  },
+  productContainer: {
+    flex: 1,
+    margin: 8,
+  },
+  productImage: {
+    width: '100%',
+    height: 150,
+    resizeMode: 'cover',
+    borderRadius: 8,
+  },
+  productTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 8,
+  },
+  productPrice: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 4,
   },
 });
-
-// Export the App component as the default export
-export default Category;

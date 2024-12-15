@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     itemImageContainer: {
         borderRadius: 10,
         width: '100%',
-        height: 150,
+        height: 100,
     },
     itemImage: {
         width: '100%',
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         padding: 8,
         alignItems: 'flex-start',
         gap: 4,
+        backgroundColor: 'blue',
     },
     itemTitle: {
         fontSize: 16,

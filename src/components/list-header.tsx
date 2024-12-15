@@ -1,4 +1,7 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Link } from "expo-router";
+import { FlatList, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons"
+import { CATEGORIES } from "../../assets/categories";
 
 export const ListHeader = () => {
     return (
@@ -13,11 +16,57 @@ export const ListHeader = () => {
                         <Text>Welcome back!</Text>
                     </View>
                 </View>
+                <View style={styles.headerRight}>
+                <Link style={styles.cartContainer} href='/cart' asChild>
+                    <Pressable>
+                        {({ pressed }) => (
+                            <View>
+                                <FontAwesome
+                                name='shopping-cart'
+                                size={25}
+                                color='gray'
+                                style={{ marginRight:15, opacity: pressed ? 0.5 : 1}}
+                                />
+                                <View style={styles.badgeContainer}>
+                                    <Text style={styles.badgeText}>{1}</Text>
+                                </View>
+                            </View>
+                        )}
+                    </Pressable>
+                </Link>
+                <TouchableOpacity style={styles.signOutButton}>
+                    <FontAwesome name='sign-out' size={25} color='red'/>
+                </TouchableOpacity>
+                </View>
             </View>
-            <View style={styles.heroContainer}></View>
-            <View style={styles.categoriesContainer}></View>
-        </View>
-    );
+                <View style={styles.heroContainer}>
+                    <Image
+                    source={require('../../assets/images/hero.png')}
+                    style={styles.heroImage}
+                    />
+                </View>
+                <View style={styles.categoriesContainer}>
+        <Text style={styles.sectionTitle}>Categories</Text>
+        <FlatList
+          data={CATEGORIES}
+          renderItem={({ item }) => (
+            <Link asChild href={`/categories/${item.slug}`}>
+              <Pressable style={styles.category}>
+                <Image
+                  source={{ uri: item.imageUrl }}
+                  style={styles.categoryImage}
+                />
+                <Text style={styles.categoryText}>{item.name}</Text>
+              </Pressable>
+            </Link>
+          )}
+          keyExtractor={item => item.name}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
